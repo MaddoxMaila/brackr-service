@@ -25,7 +25,12 @@ app.use(cors({ origin: true, credentials: true }))
 
 //routers
 app.get('/', (req, res) => res.send('Running.. 🚀'))
-app.use('/auth', Routers.authRouter)
+
+app.use(
+    '/:companyId/auth',
+    Routers.authRouter
+)
+// app.use('/auth', Routers.authRouter)
 // app.use('/private', AuthMid, require('./routers/authRouter'))
 
 
