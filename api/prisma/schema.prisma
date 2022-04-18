@@ -11,15 +11,31 @@ generator client {
 model Company {
   id         Int        @id @default(autoincrement())
   name       String     @db.VarChar(100)
+  email      String     @unique @db.VarChar(155)
   createdAt  DateTime   @default(now())
 
   // Foreign Key Reference
   // Each Company has users, buses, journeys
   users       User[]
   vehicles    Vehicle[]
-  journey     Journey[]
+  journeys    Journey[]
+  apikey      Apikey[]  
 
   @@map("company")
+}
+
+model Apikey {
+  id          Int         @id @default(autoincrement())
+  apiKey      String      @unique @db.VarChar()
+  createdAt   DateTime    @default(now())
+  expire      DateTime
+
+  // Foreign Key Reference
+  // Each User belongs to a company
+  companyId  Int?
+  company    Company? @relation(fields: [companyId], references: [id])
+
+  @@map("apikey")
 }
 
 
@@ -65,6 +81,8 @@ model Journey {
   // Each Bus belongs to a company
   companyId  Int?
   company    Company? @relation(fields: [companyId], references: [id])
+
+  @@map("journey")  
 }
 
 model Position {

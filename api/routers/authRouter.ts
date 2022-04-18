@@ -1,14 +1,14 @@
-import { Router } from "express";
+import router from "./router"
 import UserController from "../controllers/auth/UserController"
-const router = Router()
+
 
 /**
  * @description 1. create a new user then login user
- * @param { email:String, name:String, password:String } = req.body
+ * @param { email:String, name:String, password:String, type:String } = req.body
  * @endpoint http://localhost:2727/auth/signup
  * @example same
  */
-router.post('/signup', UserController.signUp)
+router.post('/:companyId/signup', UserController.signUp)
 
 /**
  * @description 2. login user
@@ -16,7 +16,7 @@ router.post('/signup', UserController.signUp)
  * @endpoint http://localhost:2727/auth/login
  * @example same
  */
-router.post('/login', UserController.login)
+router.post('/:companyId/login', UserController.login)
 
 /**
  * @description 3. logout user

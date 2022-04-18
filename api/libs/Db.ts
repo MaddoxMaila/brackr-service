@@ -1,6 +1,10 @@
 import { 
     PrismaClient,
-    User 
+    User,
+    Apikey,
+    Journey, 
+    Company,
+    Position,
 } from "@prisma/client";
 
 /**
@@ -11,5 +15,9 @@ const db = new PrismaClient()
 
 export {
     db,
-    User
+    User,
+    Apikey,
+    Journey,
+    Company,
+    Position,
 }

@@ -70,7 +70,6 @@ const UserController = {
 
     login: async (req: Request, res: Response) => {
         try {
-
             const { email, password } = req.body
             const companyId: number = parseInt(req.params.companyId)
 

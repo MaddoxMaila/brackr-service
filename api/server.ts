@@ -8,6 +8,7 @@ import ErrorMid from './routers/middleware/ErrorMid';
 
 //import routes
 import Routers from './routers/index';
+import ApiKeyMid from './routers/middleware/ApiKeyMid';
 
 
 //init
@@ -22,14 +23,28 @@ app.use(helmet());
 //enable cros 
 app.use(cors({ origin: true, credentials: true }))
 
-
 //routers
 app.get('/', (req, res) => res.send('Running.. 🚀'))
 
+// Application middlewares
+const middleware = [
+
+    // Makes sure requests that come have an access key to use our  services
+    ApiKeyMid
+]
+
 app.use(
-    '/:companyId/auth',
+    '/auth',
+    middleware,
     Routers.authRouter
 )
+
+app.use(
+    '/admin',
+    middleware,
+    Routers.adminRouter
+)
+
 // app.use('/auth', Routers.authRouter)
 // app.use('/private', AuthMid, require('./routers/authRouter'))
 

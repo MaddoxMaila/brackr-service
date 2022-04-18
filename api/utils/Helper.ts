@@ -1,6 +1,7 @@
 import jwt, { Jwt } from 'jsonwebtoken'
 import moment from 'moment'
-
+import {db} from '../libs/Db'
+import {hashAPIKey} from '../libs/createApiKey'
 /**
  * get a date after 1 day @return miliseconds
  * @param {number} day
@@ -38,7 +39,29 @@ const verifyJWTtoken = (token: string): string => {
     }
 }
 
+const verifyApiKey = async (apikey: String) => {
+
+    const hashedAPIKey = hashAPIKey(apikey)
+
+    const api = await db.apikey.findUnique({
+        where: {
+            apiKey: hashedAPIKey
+        }
+    })
+
+    if(!api) throw new Error("Api Key missing")
+
+    // if (new Date() == api.expire) throw new Error("Api Key Expired")
+
+    return api
+
+}
+
 export default {
-    getExpireDay, getJWTtoken, verifyJWTtoken
+    getExpireDay,
+    getJWTtoken,
+    verifyJWTtoken,
+    verifyApiKey
+
 }
 
