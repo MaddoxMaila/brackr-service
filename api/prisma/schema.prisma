@@ -8,14 +8,84 @@ generator client {
 }
 
 // all models
+model Company {
+  id         Int        @id @default(autoincrement())
+  name       String     @db.VarChar(100)
+  createdAt  DateTime   @default(now())
+
+  // Foreign Key Reference
+  // Each Company has users, buses, journeys
+  users       User[]
+  vehicles    Vehicle[]
+  journey     Journey[]
+
+  @@map("company")
+}
+
+
 model User {
   id         Int      @id @default(autoincrement())
   name       String   @db.VarChar(100)
   type       String   @db.VarChar(10)
   email      String   @unique @db.VarChar(155)
   password   String
-  created_at DateTime @default(now())
+  createdAt  DateTime @default(now())
+
+  // Foreign Key Reference
+  // Each User belongs to a company
+  companyId  Int?
+  company    Company? @relation(fields: [companyId], references: [id])
 
   @@map("user")
 }
+
+model Vehicle {
+  id              Int      @id @default(autoincrement())
+  vehicleNumber   String   @db.VarChar(20)
+  transit         Transit  @default(NO)
+  createdAt       DateTime @default(now())
+
+  // Foreign Key Reference
+  // Each Bus has many positions (as it moves)
+  positions  Position[]
+
+  // Foreign Key Reference
+  // Each Bus belongs to a company
+  companyId  Int?
+  company    Company? @relation(fields: [companyId], references: [id])
+
+  @@map("vehicle")
+}
+
+model Journey {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(100)
+
+  // Foreign Key Reference
+  // Each Bus belongs to a company
+  companyId  Int?
+  company    Company? @relation(fields: [companyId], references: [id])
+}
+
+model Position {
+  id          Int       @id @default(autoincrement())
+  from        String    @db.VarChar(100)
+  to          String    @db.VarChar(100)
+  latitude    Decimal
+  longitude   Decimal
+  createdAt   DateTime @default(now())
+
+  // Foreign Key Reference
+  // Each Position belongs to one vehicle
+  vehicleId   Int?
+  vehicle     Vehicle? @relation(fields: [vehicleId], references: [id])
+
+  @@map("position")  
+}
+
+enum Transit {
+  NO
+  YES
+}
+
 
