@@ -1,5 +1,5 @@
 import { Router } from "express";
-import AdminController from "../controllers/auth/AdminController";
+import UserController from "../controllers/auth/UserController"
 const router = Router()
 
 /**
@@ -8,7 +8,7 @@ const router = Router()
  * @endpoint http://localhost:2727/auth/signup
  * @example same
  */
-router.post('/signup', AdminController.signUp)
+router.post('/signup', UserController.signUp)
 
 /**
  * @description 2. login user
@@ -16,21 +16,21 @@ router.post('/signup', AdminController.signUp)
  * @endpoint http://localhost:2727/auth/login
  * @example same
  */
-router.post('/login', AdminController.login)
+router.post('/login', UserController.login)
 
 /**
  * @description 3. logout user
  * @endpoint http://localhost:2727/auth/logout
  * @example same
  */
-router.get('/logout', AdminController.logout)
+router.get('/logout', UserController.logout)
 
 /**
  * @description 4. ck logged in or not
  * @endpoint http://localhost:2727/auth/is-loggedin
  * @example same
  */
-router.get('/is-loggedin', AdminController.isLoggedIn)
+router.get('/is-loggedin', UserController.isLoggedIn)
 
 /**
  * @description 5. forget password
