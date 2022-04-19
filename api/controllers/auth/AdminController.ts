@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import ApiResponse from "../../libs/ApiResponse"
 import { createApiKeyExpireDate, generateAPIKey } from "../../libs/createApiKey"
 import { db, Company } from '../../libs/Db'
+import ErrorResponse from "../../libs/ErrorResponse"
 import { CompanyCreated } from "../../libs/types"
 
 
@@ -60,9 +61,7 @@ import { CompanyCreated } from "../../libs/types"
 
 
             } catch (e: any) {
-                console.log("company creation: ", e);
-                let response = ApiResponse(true, e.message, e);
-                res.json(response);
+                ErrorResponse(res, e)
             }
     
     
