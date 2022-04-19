@@ -1,11 +1,23 @@
+import { Request, Response } from "express"
 
 
 
 const LocationController = {
-    saveVehicleCoordinates: async () => {
-        
+    addLocation: async (req: Request, res: Response) => {
+
+        try{
+
+            const {name} = req.body
+            const companyId = parseInt(req.params.companyId)
+
+            
+
+        }catch(e: any){
+
+        }
+
     },
-    getVehicleCoordinates: async () => {
+    getLocation: async (req: Request, res: Response) => {
         
     }
 }
