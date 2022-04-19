@@ -19,6 +19,7 @@ model Company {
   users       User[]
   vehicles    Vehicle[]
   journeys    Journey[]
+  locations   Location[]
   apikey      Apikey[]  
 
   @@map("company")
@@ -58,7 +59,6 @@ model User {
 model Vehicle {
   id              Int      @id @default(autoincrement())
   vehicleNumber   String   @db.VarChar(20)
-  transit         Transit  @default(NO)
   createdAt       DateTime @default(now())
 
   // Foreign Key Reference
@@ -71,6 +71,14 @@ model Vehicle {
   company    Company? @relation(fields: [companyId], references: [id])
 
   @@map("vehicle")
+}
+
+model Location {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(100)
+
+  companyId   Int?
+  company     Company?  @relation(fields: [companyId], references: [id])
 }
 
 model Journey {
