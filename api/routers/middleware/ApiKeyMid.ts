@@ -7,12 +7,10 @@ const ApiKeyMid = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
         const headers = req.headers
-        console.log(headers)
         // check for access-key in header
         if(!headers['x-access-key']) throw new Error("Missing Access Key")
 
         const apiKey = headers['x-access-key'].toString()
-        console.log(apiKey)
 
         // verify api key
         const api = await Helper.verifyApiKey(apiKey)
@@ -20,7 +18,12 @@ const ApiKeyMid = async (req: Request, res: Response, next: NextFunction) => {
         if(!api) throw new Error("Invalid Access key")
 
         // set apikey details accessible across the backend
-        req.user.api = api.id && api
+        // req.auth.api = api
+        req.auth = {
+            user: null,
+            api: null
+        }
+        req.auth.api =  api
 
         next()
     }catch(e: any){

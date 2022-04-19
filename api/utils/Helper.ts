@@ -41,14 +41,14 @@ const verifyJWTtoken = (token: string): string => {
 
 const verifyApiKey = async (apikey: String) => {
 
-    const hashedAPIKey = hashAPIKey(apikey)
+    const hashedApiKey = hashAPIKey(apikey)
 
     const api = await db.apikey.findUnique({
         where: {
-            apiKey: hashedAPIKey
+            apiKey: hashedApiKey
         }
     })
-
+    console.log(hashedApiKey)
     if(!api) throw new Error("Api Key missing")
 
     // if (new Date() == api.expire) throw new Error("Api Key Expired")

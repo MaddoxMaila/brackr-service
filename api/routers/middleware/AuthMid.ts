@@ -25,7 +25,11 @@ const AuthMid = async (req: Request, res: Response, next: NextFunction) => {
         if(!user?.id) throw new Error("Authorized user does not exist")
 
         //set user email in request
-        req.user = user
+        req.auth = {
+            user: null,
+            api: null
+        }
+        req.auth.user = user
         next()
     } catch (e: any) {
         res.status(401).json(ApiResponse<Error>(true, e.message, e))
