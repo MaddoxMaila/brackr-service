@@ -19,11 +19,8 @@ const ApiKeyMid = async (req: Request, res: Response, next: NextFunction) => {
 
         // set apikey details accessible across the backend
         // req.auth.api = api
-        req.auth = {
-            user: null,
-            api: null
-        }
-        req.auth.api =  api
+
+        req.api =  api
 
         next()
     }catch(e: any){
