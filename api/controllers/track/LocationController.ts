@@ -1,4 +1,7 @@
 import { Request, Response } from "express"
+import ApiResponse from "../../libs/ApiResponse"
+import { db } from "../../libs/Db"
+import ErrorResponse from "../../libs/ErrorResponse"
 
 
 
@@ -10,15 +13,48 @@ const LocationController = {
             const {name} = req.body
             const companyId = parseInt(req.params.companyId)
 
-            
+            if(
+                await db.location.findFirst({
+                    where: {
+                        companyId: companyId,
+                        name: name
+                    }
+                })
+            ) throw new Error("Location already exists")
+
+            db.location.create({
+                data: {
+                    name: name,
+                    companyId: companyId
+                }
+            })
+
+            res.status(200).json(ApiResponse(false, "location added", {name: name, companyId: companyId}))
 
         }catch(e: any){
-
+            ErrorResponse(res, e)
         }
 
     },
-    getLocation: async (req: Request, res: Response) => {
-        
+    getLocations: async (req: Request, res: Response) => {
+        try{
+
+            const {lastId} = req.query
+            const {companyId} = req.params
+
+            const locations = await db.location.findMany({
+                where: {
+                    companyId: parseInt(companyId)
+                }
+            })
+
+            if(!locations) throw new Error("No locations found")
+
+            res.status(200).json(ApiResponse(false, "locations found", locations))
+            
+        }catch(e: any){
+            ErrorResponse(res, e)
+        }
     }
 }
 
