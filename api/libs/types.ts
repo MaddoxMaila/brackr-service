@@ -5,3 +5,8 @@ export type CompanyCreated = {
     id          : number,
     apikey      : String  
 }
+
+export type Coords = {
+    lat: number,
+    lng: number
+}
