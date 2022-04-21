@@ -59,7 +59,7 @@ model User {
 
 model TrackedObject {
   id              Int      @id @default(autoincrement())
-  trackedObjId    String   @db.VarChar(20)
+  name            String   @unique @db.VarChar(20)
   createdAt       DateTime @default(now())
 
   // Foreign Key Reference
@@ -85,8 +85,9 @@ model Location {
 
 model Journey {
   id          Int       @id @default(autoincrement())
-  name        String    @db.VarChar(100)
-
+  from        String    @db.VarChar(100)
+  to          String    @db.VarChar(100)
+  transit     Int
   // Foreign Key Reference
   // Each Bus belongs to a company
   companyId  Int?
