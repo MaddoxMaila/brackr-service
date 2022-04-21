@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
-import { db } from "../../libs/Db"
+import ApiResponse from "../../libs/ApiResponse"
 import ErrorResponse from "../../libs/ErrorResponse"
-import { Coords } from "../../libs/types"
+import { computePosition } from "./track"
 
 
 
@@ -11,9 +11,11 @@ const PositionController = {
         try{
 
             const {trackObjectId, lat, lng} = req.body
-            const {companyId}               = req.params
+            const companyId               = req.api?.companyId
 
-            // const position = this.computePosition()
+            const position = computePosition({lat, lng}, companyId, trackObjectId)
+
+            res.status(200).json(ApiResponse(false, "position saved", position))
 
         }catch(e: any){
             ErrorResponse(res, e)
@@ -23,21 +25,7 @@ const PositionController = {
     getPositionCoordinates: async () => {
         
     },
-    computePosition: async (coords: Coords, companyId: number, trackedObjectId: number) => {
-
-        const p = await db.position.create({
-            data: {
-                latitude: coords.lat,
-                longitude: coords.lng,
-                trackedObjectId: trackedObjectId,
-                companyId: companyId
-            }
-        })
-        if(!p) throw new Error("failed to save position")
-
-        return p
-
-    }
+    
 }
 
 export default PositionController

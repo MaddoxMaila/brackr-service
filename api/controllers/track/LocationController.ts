@@ -11,12 +11,11 @@ const LocationController = {
         try{
 
             const {name} = req.body
-            const companyId = parseInt(req.params.companyId)
 
             if(
                 await db.location.findFirst({
                     where: {
-                        companyId: companyId,
+                        companyId: req.api?.companyId,
                         name: name
                     }
                 })
@@ -25,7 +24,7 @@ const LocationController = {
             db.location.create({
                 data: {
                     name: name,
-                    companyId: companyId
+                    companyId: req.api?.companyId
                 }
             })
 
@@ -40,11 +39,10 @@ const LocationController = {
         try{
 
             const {lastId} = req.query
-            const {companyId} = req.params
 
             const locations = await db.location.findMany({
                 where: {
-                    companyId: parseInt(companyId)
+                    companyId: req.api?.companyId
                 }
             })
 
