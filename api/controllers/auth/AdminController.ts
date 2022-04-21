@@ -71,27 +71,42 @@ import { CompanyCreated } from "../../libs/types"
         },
     }
 
-const VehicleController = {
-    addNewVehicle: async () => {
+const TrackedObjectController = {
+    addNewTrackedObject: async (req: Request, res: Response) => {
+
+        try{
+
+            const {name}    = req.body
+
+            if(
+                await db.trackedObject.findUnique({
+                    where: {
+                        name: name
+                    }
+                })
+            ) throw new Error(`${name} already exists, generate another one`)
+
+            if(!await db.trackedObject.create({
+                data: {
+                    name: name,
+                    companyId: req.api?.companyId
+                }
+            })) throw new Error("Failed to add tracked object")
+
+            res.status(200).json(ApiResponse(false, "Tracked Object added", {}))
+
+        }catch(e: any){
+            ErrorResponse(res, e)
+        }
 
     },
-    deleteVehicle: async () => {
+    deleteTrackedObject: async () => {
         
     },
 }
 
-
-const JourneyController = {
-    addNewJourney: async () => {
-        
-    },
-    deleteJourney: async () => {
-
-    }
-}
 
 export {
     CompanyController,
-    VehicleController,
-    JourneyController
+    TrackedObjectController,
 }
