@@ -1,4 +1,4 @@
-import { CompanyController } from "../controllers/auth/AdminController";
+import { CompanyController, TrackedObjectController } from "../controllers/auth/AdminController";
 import router from "./router";
 
 router.post(
@@ -7,8 +7,18 @@ router.post(
 )
 
 router.delete(
-    'company/:companyId/delete',
+    '/company/delete',
     CompanyController.deleteCompany
+)
+
+router.post(
+    '/object/new',
+    TrackedObjectController.addNewTrackedObject
+)
+
+router.post(
+    '/object/delete',
+    TrackedObjectController.deleteTrackedObject
 )
 
 export default router
