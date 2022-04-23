@@ -38,10 +38,10 @@ const JourneysController = {
         }
 
     },
-    stopJourney: async () => {
+    stopJourney: async (req: Request, res: Response) => {
 
     },
-    getAllJourneys: async () => {
+    getAllJourneys: async (req: Request, res: Response) => {
         
     }
 }
