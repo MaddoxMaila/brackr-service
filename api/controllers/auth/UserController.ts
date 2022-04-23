@@ -21,7 +21,7 @@ const UserController = {
     signUp: async (req: Request, res: Response) => {
         try {
             const { email, name, password } = req.body
-            const companyId: number = parseInt(req.params.companyId)
+            const companyId = req.api?.companyId
             //validatioin handle by sequlize
             if (password.length < 6) {
                 throw new Error("Password Length Should be More than 5 character.")

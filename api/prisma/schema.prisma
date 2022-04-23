@@ -16,10 +16,12 @@ model Company {
 
   // Foreign Key Reference
   // Each Company has users, buses, journeys
-  users       User[]
-  vehicles    Vehicle[]
-  journeys    Journey[]
-  apikey      Apikey[]  
+  users             User[]
+  trackedObject     TrackedObject[]
+  journeys          Journey[]
+  locations         Location[]
+  apikey            Apikey[]
+  positions         Position[]
 
   @@map("company")
 }
@@ -55,48 +57,61 @@ model User {
   @@map("user")
 }
 
-model Vehicle {
+model TrackedObject {
   id              Int      @id @default(autoincrement())
-  vehicleNumber   String   @db.VarChar(20)
-  transit         Transit  @default(NO)
+  name            String   @unique @db.VarChar(20)
   createdAt       DateTime @default(now())
 
   // Foreign Key Reference
   // Each Bus has many positions (as it moves)
   positions  Position[]
+  journey    Journey[] 
 
   // Foreign Key Reference
   // Each Bus belongs to a company
   companyId  Int?
   company    Company? @relation(fields: [companyId], references: [id])
 
-  @@map("vehicle")
+  @@map("trackedObject")
+}
+
+model Location {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(100)
+
+  companyId   Int?
+  company     Company?  @relation(fields: [companyId], references: [id])
 }
 
 model Journey {
   id          Int       @id @default(autoincrement())
-  name        String    @db.VarChar(100)
-
+  from        String    @db.VarChar(100)
+  to          String    @db.VarChar(100)
+  transit     Int
   // Foreign Key Reference
   // Each Bus belongs to a company
   companyId  Int?
   company    Company? @relation(fields: [companyId], references: [id])
+
+  trackedObjectId   Int?
+  trackedObject           TrackedObject? @relation(fields: [trackedObjectId], references: [id])
 
   @@map("journey")  
 }
 
 model Position {
   id          Int       @id @default(autoincrement())
-  from        String    @db.VarChar(100)
-  to          String    @db.VarChar(100)
   latitude    Decimal
   longitude   Decimal
   createdAt   DateTime @default(now())
 
   // Foreign Key Reference
   // Each Position belongs to one vehicle
-  vehicleId   Int?
-  vehicle     Vehicle? @relation(fields: [vehicleId], references: [id])
+  trackedObjectId   Int?
+  trackedObject     TrackedObject? @relation(fields: [trackedObjectId], references: [id])
+
+  companyId         Int?
+  company           Company? @relation(fields: [companyId], references: [id])
 
   @@map("position")  
 }

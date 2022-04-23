@@ -9,9 +9,8 @@ const AuthMid = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         const token = req.cookies[Define.TOKEN]
-        if (!token) {
-            throw new Error("Unauthorized Access")
-        }
+        if (!token) throw new Error("Unauthorized Access")
+        
         //token validation
         const id = Helper.verifyJWTtoken(token)
         console.log("authmid: ", id);
@@ -26,6 +25,7 @@ const AuthMid = async (req: Request, res: Response, next: NextFunction) => {
 
         //set user email in request
         req.user = user
+        
         next()
     } catch (e: any) {
         res.status(401).json(ApiResponse<Error>(true, e.message, e))

@@ -1,9 +1,12 @@
 import {Express, Request} from "express";
+import {User, Apikey} from '../../libs/Db'
+
 
 declare global{
     namespace Express {
         interface Request {
-            user?: any,
+            user?: User;
+            api?: Apikey;
         }
     }
 }

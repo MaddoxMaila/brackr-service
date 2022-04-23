@@ -45,6 +45,24 @@ app.use(
     Routers.adminRouter
 )
 
+app.use(
+    '/journey',
+    middleware,
+    Routers.journeyRouter
+)
+
+app.use(
+    '/position',
+    middleware,
+    Routers.positionRouter,
+)
+
+app.use(
+    'location',
+    middleware,
+    Routers.locationRouter
+)
+
 // app.use('/auth', Routers.authRouter)
 // app.use('/private', AuthMid, require('./routers/authRouter'))
 

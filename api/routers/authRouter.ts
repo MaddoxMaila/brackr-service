@@ -8,7 +8,7 @@ import UserController from "../controllers/auth/UserController"
  * @endpoint http://localhost:2727/auth/signup
  * @example same
  */
-router.post('/:companyId/signup', UserController.signUp)
+router.post('/signup', UserController.signUp)
 
 /**
  * @description 2. login user
@@ -16,7 +16,7 @@ router.post('/:companyId/signup', UserController.signUp)
  * @endpoint http://localhost:2727/auth/login
  * @example same
  */
-router.post('/:companyId/login', UserController.login)
+router.post('/login', UserController.login)
 
 /**
  * @description 3. logout user

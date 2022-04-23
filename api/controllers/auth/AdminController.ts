@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import ApiResponse from "../../libs/ApiResponse"
 import { createApiKeyExpireDate, generateAPIKey } from "../../libs/createApiKey"
 import { db, Company } from '../../libs/Db'
+import ErrorResponse from "../../libs/ErrorResponse"
 import { CompanyCreated } from "../../libs/types"
 
 
@@ -60,9 +61,7 @@ import { CompanyCreated } from "../../libs/types"
 
 
             } catch (e: any) {
-                console.log("company creation: ", e);
-                let response = ApiResponse(true, e.message, e);
-                res.json(response);
+                ErrorResponse(res, e)
             }
     
     
@@ -72,27 +71,42 @@ import { CompanyCreated } from "../../libs/types"
         },
     }
 
-const VehicleController = {
-    addNewVehicle: async () => {
+const TrackedObjectController = {
+    addNewTrackedObject: async (req: Request, res: Response) => {
+
+        try{
+
+            const {name}    = req.body
+
+            if(
+                await db.trackedObject.findUnique({
+                    where: {
+                        name: name
+                    }
+                })
+            ) throw new Error(`${name} already exists, generate another one`)
+
+            if(!await db.trackedObject.create({
+                data: {
+                    name: name,
+                    companyId: req.api?.companyId
+                }
+            })) throw new Error("Failed to add tracked object")
+
+            res.status(200).json(ApiResponse(false, "Tracked Object added", {}))
+
+        }catch(e: any){
+            ErrorResponse(res, e)
+        }
 
     },
-    deleteVehicle: async () => {
+    deleteTrackedObject: async () => {
         
     },
 }
 
-
-const JourneyController = {
-    addNewJourney: async () => {
-        
-    },
-    deleteJourney: async () => {
-
-    }
-}
 
 export {
     CompanyController,
-    VehicleController,
-    JourneyController
+    TrackedObjectController,
 }
