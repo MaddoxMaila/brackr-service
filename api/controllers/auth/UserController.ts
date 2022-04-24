@@ -20,8 +20,13 @@ const UserController = {
      */
     signUp: async (req: Request, res: Response) => {
         try {
-            const { email, name, password } = req.body
+
+            const ACCOUNT_TYPE = ['user', 'admin', 'superadmin']
+ 
+            const { email, name, password, type } = req.body
             const companyId = req.api?.companyId
+
+            if(!ACCOUNT_TYPE.includes(type)) throw new Error("Creating new user failed, context?")
             //validatioin handle by sequlize
             if (password.length < 6) {
                 throw new Error("Password Length Should be More than 5 character.")
@@ -48,7 +53,7 @@ const UserController = {
                     name: name,
                     email,
                     password: hashpass,
-                    type: 'user',
+                    type: type,
                     companyId: companyId
                 }
             })
@@ -59,7 +64,7 @@ const UserController = {
             res.cookie(Define.TOKEN, token, Define.SESSION_COOKIE_OPTION)
 
             //, token-if you want you can pass the token
-            res.status(200).json(ApiResponse<User>(false, "user created successfully", user))
+            res.status(200).json(ApiResponse(false, "user created successfully", {user, token}))
 
         } catch (e: any) {
             console.log("auth sign up: ", e);
@@ -71,7 +76,7 @@ const UserController = {
     login: async (req: Request, res: Response) => {
         try {
             const { email, password } = req.body
-            const companyId: number = parseInt(req.params.companyId)
+            const companyId = req.api?.companyId
 
             //validatioin
             if (!email || !password) {
@@ -80,7 +85,7 @@ const UserController = {
             //check user is available or not in db
             const u = await db.user.findUnique({
                 where: {
-                    email: email
+                    email: email,
                 }
             })
             if (!u) {
@@ -101,7 +106,7 @@ const UserController = {
             res.cookie(Define.TOKEN, token, Define.SESSION_COOKIE_OPTION)
 
             //, token-if you want you can pass the token
-            res.status(200).json(ApiResponse<User>(false, "user logged in successfully", user))
+            res.status(200).json(ApiResponse(false, "user logged in successfully", {user, token}))
 
         } catch (e: any) {
             console.log("auth login: ", e);
