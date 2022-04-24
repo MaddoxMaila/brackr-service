@@ -49,6 +49,8 @@ model User {
   password   String
   createdAt  DateTime @default(now())
 
+  trackedObjects    TrackedObject[]
+
   // Foreign Key Reference
   // Each User belongs to a company
   companyId  Int?
@@ -64,8 +66,11 @@ model TrackedObject {
 
   // Foreign Key Reference
   // Each Bus has many positions (as it moves)
-  positions  Position[]
-  journey    Journey[] 
+  positions       Position[]
+  journey         Journey[]
+
+  userId          Int?
+  user            User? @relation(fields: [userId], references: [id])
 
   // Foreign Key Reference
   // Each Bus belongs to a company
@@ -81,6 +86,8 @@ model Location {
 
   companyId   Int?
   company     Company?  @relation(fields: [companyId], references: [id])
+
+  @@map("location")
 }
 
 model Journey {
@@ -88,6 +95,8 @@ model Journey {
   from        String    @db.VarChar(100)
   to          String    @db.VarChar(100)
   transit     Int
+
+  positions   Position[]
   // Foreign Key Reference
   // Each Bus belongs to a company
   companyId  Int?
@@ -112,6 +121,9 @@ model Position {
 
   companyId         Int?
   company           Company? @relation(fields: [companyId], references: [id])
+
+  journeyId         Int?
+  journey           Journey? @relation(fields: [journeyId], references: [id])
 
   @@map("position")  
 }

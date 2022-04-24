@@ -28,7 +28,7 @@ const LocationController = {
                 }
             })
 
-            res.status(200).json(ApiResponse(false, "location added", {name: name, companyId: companyId}))
+            res.status(200).json(ApiResponse(false, "location added", {name: name, companyId: req.api?.companyId}))
 
         }catch(e: any){
             ErrorResponse(res, e)

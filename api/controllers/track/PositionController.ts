@@ -10,10 +10,10 @@ const PositionController = {
 
         try{
 
-            const {trackObjectId, lat, lng} = req.body
+            const {trackedObjectId, journeyId, lat, lng} = req.body
             const companyId               = req.api?.companyId
 
-            const position = computePosition({lat, lng}, companyId, trackObjectId)
+            const position = computePosition({lat, lng, companyId, trackedObjectId, journeyId})
 
             res.status(200).json(ApiResponse(false, "position saved", position))
 

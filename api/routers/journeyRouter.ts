@@ -1,5 +1,7 @@
+import { Router } from "express";
 import JourneysController from "../controllers/journeys/JourneysController";
-import router from "./router";
+
+const router = Router()
 
 router.post(
     '/new',
