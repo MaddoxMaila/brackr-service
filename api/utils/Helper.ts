@@ -49,6 +49,7 @@ const verifyApiKey = async (apikey: String) => {
         }
     })
     console.log(hashedApiKey)
+    console.log(api)
     if(!api) throw new Error("Api Key missing")
 
     // if (new Date() == api.expire) throw new Error("Api Key Expired")

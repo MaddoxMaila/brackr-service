@@ -1,3 +1,26 @@
 {
-    "intelliBrainz_api_key": "69927eeec95b5ce3119f0aaff77761c9696e74656c6c69427261696e7a40676d61696c2e636f6d" 
+    "intelliBrainz_api_key": "69927eeec95b5ce3119f0aaff77761c9696e74656c6c69427261696e7a40676d61696c2e636f6d",
+    "areyeng_api_key": "dfed48b264564733ef3e9e0b7d388b3761726579656e6740676d61696c2e636f6d",
+    "logins": {
+        "accounts": [
+            {
+                "email": "maddoxmaila719@gmail.com",
+                "password": "maddox",
+                "type": "user",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJpYXQiOjE2NTA3MjAxOTd9.VZZrVyfEVnZ3q1p8nmcUozO3CGmZHvB0EflXD_j-XBM"
+            },
+            {
+                "email": "maddox@gmail.com",
+                "password": "maddox",
+                "type": "admin",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJpYXQiOjE2NTA3MjExMzl9.XCMWgDN6YreCGNCccItqhE-4LsBplICzwWtLu3ndRdc"
+            },
+            {
+                "email": "maila@gmail.com",
+                "password": "maddox",
+                "type": "superadmin",
+                "token": ""
+            }
+        ]
+    }
 }

@@ -28,14 +28,14 @@ app.get('/', (req, res) => res.send('Running.. 🚀'))
 
 // Application middlewares
 const middleware = [
-
     // Makes sure requests that come have an access key to use our  services
-    ApiKeyMid
+    AuthMid,
+    ApiKeyMid,
 ]
 
 app.use(
     '/auth',
-    middleware,
+    ApiKeyMid,
     Routers.authRouter
 )
 
@@ -58,7 +58,7 @@ app.use(
 )
 
 app.use(
-    'location',
+    '/location',
     middleware,
     Routers.locationRouter
 )
