@@ -89,7 +89,8 @@ const TrackedObjectController = {
             if(!await db.trackedObject.create({
                 data: {
                     name: name,
-                    companyId: req.api?.companyId
+                    companyId: req.api?.companyId,
+                    userId: req.user?.id
                 }
             })) throw new Error("Failed to add tracked object")
 
