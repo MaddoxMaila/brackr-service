@@ -8,10 +8,14 @@ import {db} from '../../libs/Db'
 const AuthMid = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
-        const token = req.cookies[Define.TOKEN]
+        
+        const headers = req.headers
+        if(!headers['x-jwt']) throw new Error("Unauthorized Access")
+
+        const token = headers['x-jwt'].toString()
         if (!token) throw new Error("Unauthorized Access")
         
-        //token validation
+        //token validation 
         const id = Helper.verifyJWTtoken(token)
         console.log("authmid: ", id);
 

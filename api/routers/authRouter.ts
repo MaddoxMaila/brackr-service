@@ -1,6 +1,7 @@
-import router from "./router"
+import { Router } from "express"
 import UserController from "../controllers/auth/UserController"
 
+const router = Router()
 
 /**
  * @description 1. create a new user then login user
