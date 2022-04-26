@@ -20,6 +20,15 @@ const getAuthState = () => {
     return AuthState
 }
 
+const setUser = (user: any) => {
+    AuthState.user = user
+}
+
+const setAuth = (auth: any) => {
+    AuthState.apikey = auth?.api
+    AuthState.authToken = auth?.token
+}
+
 const authUser = async (form: {email: String, password: String}, callback: (data: any) => void) => {
 
     AuthState.loading = true
@@ -40,10 +49,12 @@ const logoutUser = () => {
 }
 
 const AuthContext = React.createContext<AuthContextType>({
-    fetchUser : fetchUser,
-    authUser : authUser,
-    logoutUser : logoutUser,
-    getAuthState: getAuthState
+    fetchUser,
+    authUser,
+    logoutUser,
+    getAuthState,
+    setUser,
+    setAuth
 })
 
 export {AuthContext, authUser, fetchUser, logoutUser, getAuthState}
