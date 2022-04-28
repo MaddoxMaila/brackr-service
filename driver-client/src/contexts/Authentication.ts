@@ -49,6 +49,7 @@ const logoutUser = () => {
 }
 
 const AuthContext = React.createContext<AuthContextType>({
+    AuthState,
     fetchUser,
     authUser,
     logoutUser,

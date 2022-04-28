@@ -20,6 +20,7 @@ export type AuthStateType = {
 }
 
 export type AuthContextType = {
+    AuthState: AuthStateType,
     fetchUser : () => UserType | any,
     authUser : (form: any, callback: any) => void,
     logoutUser : () => void,
