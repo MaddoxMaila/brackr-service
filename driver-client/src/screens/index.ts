@@ -1,13 +1,15 @@
-import Login from './auth/login'
-import Register from './auth/register'
 import Home from './home'
-import Notification from './notifications'
+import Login from './auth/login'
 import Search from './search'
+import Register from './auth/register'
+import { AppTabs } from './tabs/AppTabs'
+import Notification from './notifications'
 
 export {
-    Login,
-    Register,
     Home,
+    Login,
+    Search,
+    AppTabs,
+    Register,
     Notification,
-    Search
 }

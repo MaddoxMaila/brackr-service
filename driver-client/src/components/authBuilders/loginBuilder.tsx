@@ -1,11 +1,11 @@
+import axios from "axios";
 import React, {useState} from "react";
-import { useSelector, useDispatch } from 'react-redux'
+import { API_URL } from "../../constants";
 import { View, StyleSheet } from 'react-native'
+import { useSelector, useDispatch } from 'react-redux'
+import { setToken } from "../../store/modules/auth.module";
 import { AppButton, Media, Input, Texter, Space } from '../base'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
-import axios from "axios";
-import { API_URL } from "../../constants";
-import { setToken } from "../../store/modules/auth.module";
 
 interface LoginBuilderProps {}
 
@@ -79,7 +79,6 @@ const LoginBuilder : React.FC<LoginBuilderProps> = () => {
                     </View>
                 }
             />
-
         </View>
     )
 }
