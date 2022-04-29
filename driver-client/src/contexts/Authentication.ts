@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-community/async-storage"
 import { AuthContextType, AuthStateType } from "./contextTypes"
 import { API_URL } from "../constants"
 
-const AuthState: AuthStateType = {
+let AuthState: AuthStateType = {
     user: undefined,
     apikey: undefined,
     authToken: "",
@@ -16,18 +16,20 @@ const AuthState: AuthStateType = {
     }
 }
 
-const getAuthState = () => {
-    return AuthState
+const setAuthState = (state: any) => {
+    AuthState = state
+    console.log(state)
+    console.log(AuthState)
 }
 
-const setUser = (user: any) => {
-    AuthState.user = user
-}
+// const setUser = (user: any) => {
+//     AuthState.user = user
+// }
 
-const setAuth = (auth: any) => {
-    AuthState.apikey = auth?.api
-    AuthState.authToken = auth?.token
-}
+// const setAuth = (auth: any) => {
+//     AuthState.apikey = auth?.api
+//     AuthState.authToken = auth?.token
+// }
 
 const authUser = async (form: {email: String, password: String}, callback: (data: any) => void) => {
 
@@ -53,9 +55,9 @@ const AuthContext = React.createContext<AuthContextType>({
     fetchUser,
     authUser,
     logoutUser,
-    getAuthState,
-    setUser,
-    setAuth
+    setAuthState,
+    // setUser,
+    // setAuth
 })
 
-export {AuthContext, authUser, fetchUser, logoutUser, getAuthState}
+export {AuthContext, AuthState, authUser, fetchUser, logoutUser, setAuthState}

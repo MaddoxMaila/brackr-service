@@ -24,9 +24,9 @@ export type AuthContextType = {
     fetchUser : () => UserType | any,
     authUser : (form: any, callback: any) => void,
     logoutUser : () => void,
-    getAuthState: () => AuthStateType,
-    setUser: (user: any) => void,
-    setAuth: (auth:any) => void,
+    setAuthState: (state: any) => void,
+    // setUser: (user: any) => void,
+    // setAuth: (auth:any) => void,
 }
 
 export type ThemeContextType = {

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import {AuthContext, fetchUser, authUser, logoutUser, getAuthState} from '../contexts/Authentication'
+import {AuthContext, fetchUser, authUser, logoutUser, AuthState, setAuthState} from '../contexts/Authentication'
 
 interface AuthProviderProps {}
 
@@ -10,7 +10,7 @@ const AuthProvider : React.FC<AuthProviderProps> = ({children}) => {
         }, [])
 
         return (
-            <AuthContext.Provider value={{getAuthState, fetchUser, logoutUser, authUser}}>
+            <AuthContext.Provider value={{setAuthState, fetchUser, logoutUser, authUser, AuthState}}>
                 {children}
             </AuthContext.Provider>
         )

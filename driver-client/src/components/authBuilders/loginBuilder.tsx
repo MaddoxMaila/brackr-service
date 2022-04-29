@@ -8,15 +8,13 @@ import AsyncStorage from "@react-native-community/async-storage";
 
 interface LoginBuilderProps {}
 
-
-
-
 const LoginBuilder : React.FC<LoginBuilderProps> = () => {
 
-    const {authUser, getAuthState} = useContext(AuthContext)
+    const {authUser, setAuthState, AuthState} = useContext(AuthContext)
     const [email, setEmail] = useState<any>("")
     const [password, setPassword] = useState<any>("")
-    const [auth, setAuth]         = useState(getAuthState())  
+
+    const {user, apikey, authToken, loading, e} = AuthState
 
     return (
         <View style={styles.view}>
@@ -50,7 +48,7 @@ const LoginBuilder : React.FC<LoginBuilderProps> = () => {
                         <Texter text="Password" font="text-grey-sm" />
                         <Space size="0.7%" />
                         <Input hint="Password" type="visible-password" secure={true} ontype={text => setPassword(text)}/>
-
+                        <Texter text={AuthState?.authToken} />
                         <Space size="2%" />
 
                         <Media 
@@ -64,12 +62,23 @@ const LoginBuilder : React.FC<LoginBuilderProps> = () => {
                                         console.log(data)
                                         if(!data?.error){
                                             await AsyncStorage.setItem('jwt-token', data.response.token)
+                                            const {user, token} = data.response
+                                            setAuthState({
+                                                authToken: token,
+                                                user: user,
+                                                apikey,
+                                                loading,
+                                                e
+                                            })
+
+                                            alert(AuthState.authToken)
+                                            
                                         }
                                     })
 
                                 }} 
                                 title="Login"
-                                loading={auth.loading}
+                                loading={false}
                                 block={true} 
                              />
                             }
@@ -78,7 +87,6 @@ const LoginBuilder : React.FC<LoginBuilderProps> = () => {
 
                             Right={null}
                         />
-                        <Texter text={""} />
                     </View>
                 }
             />
