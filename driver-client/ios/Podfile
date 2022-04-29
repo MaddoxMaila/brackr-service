@@ -20,4 +20,6 @@ target 'tunepiknativeapp' do
   #     flipper_post_install(installer)
   #   end
   # end
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
 end
