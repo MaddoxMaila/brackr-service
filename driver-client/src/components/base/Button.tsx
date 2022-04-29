@@ -1,7 +1,5 @@
-import { Theme } from "../../contexts/contextTypes";
 import React, {useContext} from "react";
 import { Text, TouchableOpacity, ActivityIndicator, View } from 'react-native'
-import { ThemeContext } from "../../contexts/Theme";
 import Center from './Center'
 import { buttonSyle } from "../uiStyles/ButtonStyles";
  
@@ -14,8 +12,8 @@ interface ButtonProps {
 
 const AppButton : React.FC<ButtonProps> = ({title, press, loading, block}) => {
     
-    const {getTheme} = useContext(ThemeContext)
-    const styles = buttonSyle(getTheme())
+    // const {getTheme} = useContext(ThemeContext)
+    const styles = buttonSyle()
 
     return (
         <Center>

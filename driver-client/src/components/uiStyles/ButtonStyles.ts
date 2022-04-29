@@ -1,12 +1,11 @@
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 import { StyleSheet } from 'react-native'
-import { Theme } from '../../contexts/contextTypes'
 
-export const buttonSyle = (theme: Theme) => {
+export const buttonSyle = () => {
     return StyleSheet.create({
         btn : {
             color : '#fff',
-            backgroundColor : theme.colors.primaryColor, //'#007bff'
+            backgroundColor : '#007bff',
             alignItems: 'center',
             padding: 10,
             height: 38

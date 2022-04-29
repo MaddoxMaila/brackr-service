@@ -1,20 +1,22 @@
-import React, {useContext, useState} from "react";
+import React, {useState} from "react";
+import { useSelector, useDispatch } from 'react-redux'
 import { View, StyleSheet } from 'react-native'
 import { AppButton, Media, Input, Texter, Space } from '../base'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
-import {AuthContext} from '../../contexts/Authentication'
-import { ResponseType } from "../../types";
-import AsyncStorage from "@react-native-community/async-storage";
+import axios from "axios";
+import { API_URL } from "../../constants";
+import { setToken } from "../../store/modules/auth.module";
 
 interface LoginBuilderProps {}
 
 const LoginBuilder : React.FC<LoginBuilderProps> = () => {
 
-    const {authUser, setAuthState, AuthState} = useContext(AuthContext)
-    const [email, setEmail] = useState<any>("")
-    const [password, setPassword] = useState<any>("")
+    const auth = useSelector((state: any) => state.auth.auth)
+    console.log(auth)
+    const dispatch = useDispatch()
 
-    const {user, apikey, authToken, loading, e} = AuthState
+    const [form, setForm] = useState<{email: string | number, password: any}>({email: "", password: ""})
+
 
     return (
         <View style={styles.view}>
@@ -41,39 +43,26 @@ const LoginBuilder : React.FC<LoginBuilderProps> = () => {
                     <View>
                         <Texter text="Email or Username" font="text-grey-sm" />
                         <Space size="0.7%" />
-                        <Input hint="Email or username" type="email-address" ontype={text => setEmail(text)}/>
+                        <Input hint="Email or username" type="email-address" ontype={text => setForm({email: text, password: form.password})}/>
 
                         <Space size="2%" />
 
                         <Texter text="Password" font="text-grey-sm" />
                         <Space size="0.7%" />
-                        <Input hint="Password" type="visible-password" secure={true} ontype={text => setPassword(text)}/>
-                        <Texter text={AuthState?.authToken} />
+                        <Input hint="Password" type="visible-password" secure={true} ontype={text => setForm({email: form.email, password: text})}/>
+                        <Texter text={auth.token} />
                         <Space size="2%" />
 
                         <Media 
                             Left={
                                 <AppButton press={() => {
 
-                                    // authUser({username : email});
-                                    // if(Account) alert('Hello World')
-                                    
-                                    authUser({email: email, password: password}, async (data: any) => {
+                                    axios.post(`${API_URL}/auth/login`, form)
+                                    .then(({data}) => {
                                         console.log(data)
-                                        if(!data?.error){
-                                            await AsyncStorage.setItem('jwt-token', data.response.token)
-                                            const {user, token} = data.response
-                                            setAuthState({
-                                                authToken: token,
-                                                user: user,
-                                                apikey,
-                                                loading,
-                                                e
-                                            })
-
-                                            alert(AuthState.authToken)
-                                            
-                                        }
+                                        const {error, message, response} = data
+                                        dispatch(setToken(response.token))
+                                        console.log(auth)
                                     })
 
                                 }} 

@@ -1,14 +1,16 @@
 import React from 'react'
+import { Provider } from 'react-redux'
 import MainNavigation from '../navigation/mainNavigation'
-import {ThemeProvider} from '.'
+import { store } from '../store'
+
 
 interface ProvidersProps {}
 
 const Providers : React.FC<ProvidersProps> = () => {
         return (
-                <ThemeProvider>
-                    <MainNavigation></MainNavigation>
-                </ThemeProvider>
+        <Provider store={store}>
+                <MainNavigation></MainNavigation>
+        </Provider>
         )
 }
 
