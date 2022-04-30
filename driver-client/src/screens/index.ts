@@ -1,13 +1,13 @@
-import Login from './auth/login'
-import Register from './auth/register'
 import Home from './home'
-import Notification from './notifications'
+import Login from './auth/login'
 import Search from './search'
+import Register from './auth/register'
+import Notification from './notifications'
 
 export {
-    Login,
-    Register,
     Home,
+    Login,
+    Search,
+    Register,
     Notification,
-    Search
 }
