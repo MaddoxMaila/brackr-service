@@ -1,9 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import Header from "../components/base/Header";
 
 const Home : React.FC = () => {
     return(
         <View>
+            <Header />
             <Text>Home Screen</Text>
         </View>
     )
