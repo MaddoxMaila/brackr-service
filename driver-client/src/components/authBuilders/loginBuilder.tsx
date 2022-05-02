@@ -3,16 +3,26 @@ import React, {useState} from "react";
 import { API_URL } from "../../constants";
 import { View, StyleSheet } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import { setToken } from "../../store/modules/auth.module";
 import { AppButton, Media, Input, Texter, Space } from '../base'
+import { setToken, setUser } from "../../store/modules/auth.module";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
+import AsyncStorage from "@react-native-community/async-storage";
 
 interface LoginBuilderProps {}
+
+const login = (form: {email: string | number, password: string}, callback: (data: any) => void) => {
+
+    axios
+        .post(`${API_URL}/auth/login`, form)
+        .then(({data}) => {
+            callback(data)
+        })
+
+}
 
 const LoginBuilder : React.FC<LoginBuilderProps> = () => {
 
     const auth = useSelector((state: any) => state.auth.auth)
-    console.log(auth)
     const dispatch = useDispatch()
 
     const [form, setForm] = useState<{email: string | number, password: any}>({email: "", password: ""})
@@ -57,12 +67,16 @@ const LoginBuilder : React.FC<LoginBuilderProps> = () => {
                             Left={
                                 <AppButton press={() => {
 
-                                    axios.post(`${API_URL}/auth/login`, form)
-                                    .then(({data}) => {
-                                        console.log(data)
-                                        const {error, message, response} = data
-                                        dispatch(setToken(response.token))
-                                        console.log(auth)
+                                    login(form, async ({message, error, response}) => {
+                                        if(error){
+                                            // Show Error Messages
+                                        }else{
+                                            dispatch(setToken(response.token))
+                                            dispatch(setUser(response.user))
+                                            await AsyncStorage.setItem('token', response.token)
+                                            await AsyncStorage.setItem('user', JSON.stringify(response.user))
+                                            // Redirect
+                                        }
                                     })
 
                                 }} 
