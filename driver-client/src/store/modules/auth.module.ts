@@ -17,7 +17,7 @@ export const authSlice = createSlice({
       setUser: (state, actions) => {
         state.auth.user = actions.payload
       },
-      validateToken: (state?, actions?) => {
+      validateToken: (state, actions?) => {
         axios
             .post(`${API_URL}/auth/is-loggedin`)
             .then(({data}) => {
