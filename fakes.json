@@ -19,7 +19,7 @@
                 "email": "maila@gmail.com",
                 "password": "maddox",
                 "type": "superadmin",
-                "token": ""
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJpYXQiOjE2NTE1MDc4NTd9.Sz2OkoJx5Q1DOQ1kKh5WjtoxYkc-KdCPnmylBixZ2tE"
             }
         ]
     }
