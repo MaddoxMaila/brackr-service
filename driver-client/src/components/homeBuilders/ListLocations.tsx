@@ -9,11 +9,11 @@ import ListItem from "../base/ListItem";
 
 interface ListLocationsProps {}
 
-const MakeItem =  ({location}: any) => {
+const MakeItem =  ({item}: any) => {
     return (
         <ListItem>
             <Media Body={
-                <Texter text={location?.name} />
+                <Texter text={item?.name} />
             }/>
         </ListItem>
     )
@@ -42,7 +42,7 @@ const ListLocations: React.FC<ListLocationsProps> = () => {
         
             journey?.locations && journey?.locations.length == 0
             ? <Texter text={"No locations found"} /> 
-            : <FlatList renderItem={MakeItem} data={journey?.locations} keyExtractor={location => location.id} />
+            : <FlatList renderItem={MakeItem} data={journey?.locations} keyExtractor={location => location.id.toString()} />
     )
 }
 
