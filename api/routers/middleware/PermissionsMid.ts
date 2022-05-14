@@ -11,7 +11,7 @@ const UserTypes = {
 const AllAdminMid = (req: Request, res: Response, next: NextFunction) => {
 
     try{
-
+        console.log(req.user?.type)
         if(
             (req.user?.type != UserTypes.admin) ||
             (req.user?.type != UserTypes.superadmin)
