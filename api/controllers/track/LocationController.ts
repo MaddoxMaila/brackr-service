@@ -3,8 +3,6 @@ import ApiResponse from "../../libs/ApiResponse"
 import { db } from "../../libs/Db"
 import ErrorResponse from "../../libs/ErrorResponse"
 
-
-
 const LocationController = {
     addLocation: async (req: Request, res: Response) => {
 
@@ -21,12 +19,16 @@ const LocationController = {
                 })
             ) throw new Error("Location already exists")
 
-            db.location.create({
+            const location = await db.location.create({
                 data: {
                     name: name,
                     companyId: req.api?.companyId
                 }
             })
+
+            if(!location) throw new Error("Adding new location unsuccessful")
+
+            console.log(location)
 
             res.status(200).json(ApiResponse(false, "location added", {name: name, companyId: req.api?.companyId}))
 
