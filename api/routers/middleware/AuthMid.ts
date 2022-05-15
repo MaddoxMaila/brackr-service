@@ -17,7 +17,6 @@ const AuthMid = async (req: Request, res: Response, next: NextFunction) => {
         
         //token validation 
         const id = Helper.verifyJWTtoken(token)
-        console.log("authmid: ", id);
 
         const user  = await db.user.findFirst({
             where: {

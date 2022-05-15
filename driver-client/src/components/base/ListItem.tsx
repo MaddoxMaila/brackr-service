@@ -1,13 +1,23 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ViewStyle } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-interface ListItemProps {}
+interface ListItemProps {
+    press? : () => void | undefined,
+    style?: ViewStyle | undefined
+}
 
-const ListItem: React.FC<ListItemProps> = ({children}) => {
+const ListItem: React.FC<ListItemProps> = ({children, press, style}) => {
     return (
-        <View>
-            {children}
-        </View>
+        <TouchableOpacity 
+        onPress={
+            press ? () => {press()} : undefined
+        }
+        >
+            <View style={[styles.item, style && style,]}>
+                {children}
+            </View>
+        </TouchableOpacity>
     )
 }
 
@@ -15,6 +25,9 @@ export default ListItem
 
 const styles = StyleSheet.create({
     item: {
-        padding: 8
+        paddingTop: 20,
+        paddingBottom: 20,
+        borderBottomWidth: .5,
+        borderColor: 'lightgrey'
     }
 })
