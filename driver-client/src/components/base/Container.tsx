@@ -1,14 +1,18 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, SafeAreaView } from 'react-native'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen'
 
 interface ContainerProps {
-    App : any
+    children : any
 }
 
-const Container : React.FC<ContainerProps> = ({App}) => {
+const Container : React.FC<ContainerProps> = ({children}) => {
         return (
-            <View style={styles.container}>{App}</View>
+            <View style={styles.container}>
+                <SafeAreaView>
+                    {children}
+                </SafeAreaView>
+            </View>
         )
 }
 
