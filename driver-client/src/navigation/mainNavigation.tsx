@@ -43,6 +43,7 @@ const MainNavigation : React.FC = () => {
     return (
         <NavigationContainer>
             {auth.user ? <AppTabs /> : <AuthStack />}
+            {/* {auth.user && <AppStack />} */}
         </NavigationContainer>
     )
 }

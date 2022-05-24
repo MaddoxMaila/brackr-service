@@ -3,6 +3,8 @@ import Login from './auth/login'
 import Search from './search'
 import Register from './auth/register'
 import Notification from './notifications'
+import CreateLocations from './locations/CreateLocations'
+
 
 export {
     Home,
@@ -10,4 +12,5 @@ export {
     Search,
     Register,
     Notification,
+    CreateLocations
 }

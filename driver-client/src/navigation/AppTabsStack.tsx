@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Header from "../components/headers/HomeHeader";
 import Settings from "../screens/settings";
 import globalStyle from "../components/uiStyles/ui";
+import AppStack from "./appStack";
 
 interface AppTabsProps{}
 
@@ -40,8 +41,7 @@ export const AppTabs: React.FC<AppTabsProps> = () => {
             activeTintColor: "tomato",
             inactiveTintColor: "gray"
           }}>
-            <Screen name="Home" component={Home}/>
-            <Screen name="Search" component={Search}/>
+            <Screen name="Home" component={AppStack}/>
             <Screen name="Settings" component={Settings} />
         </Navigator>
     )
