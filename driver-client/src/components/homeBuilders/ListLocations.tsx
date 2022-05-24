@@ -2,12 +2,14 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { FlatList, View, } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { API_URL } from "../../constants";
+import { API_URL, JOURNEY_CONTEXT } from "../../constants";
 import { setLocations } from "../../store/modules/journey.module";
 import { Texter } from "../base";
 import ListLocationItem from "./ListLocationItem";
 
-interface ListLocationsProps {}
+interface ListLocationsProps {
+    navigation?: any
+}
 
 const getLocations = async () => {
     const { data } = await axios
@@ -22,7 +24,7 @@ const Item = ({item}: any) => {
     )
 }
 
-const ListLocations: React.FC<ListLocationsProps> = () => {
+const ListLocations: React.FC<ListLocationsProps> = ({navigation}) => {
 
     const journey = useSelector((state: any) => state.journey)
     const dispatch = useDispatch()
@@ -34,6 +36,8 @@ const ListLocations: React.FC<ListLocationsProps> = () => {
         })
 
     }, [])
+
+    if(journey.context == JOURNEY_CONTEXT.done) navigation.navigate('create-locations')
 
     return (
         <View>
