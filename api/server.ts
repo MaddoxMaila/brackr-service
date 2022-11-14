@@ -10,6 +10,8 @@ import ErrorMid from './routers/middleware/ErrorMid';
 import Routers from './routers/index';
 import ApiKeyMid from './routers/middleware/ApiKeyMid';
 
+import socketIO from './socket.io'
+
 
 //init
 dotenv.config()
@@ -67,9 +69,12 @@ app.use(
 // app.use('/private', AuthMid, require('./routers/authRouter'))
 
 
-//catch all error
+// catch all error
 app.use(ErrorMid);
 
+// Initial socket IO connection
+socketIO.onConnection()
 
 const port = process.env.PORT || 2828;
 app.listen(port, () => console.log(`Server Running on PORT ${port}`))
+
