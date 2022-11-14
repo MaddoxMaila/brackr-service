@@ -49,8 +49,6 @@ model User {
   password   String
   createdAt  DateTime @default(now())
 
-  trackedObjects    TrackedObject[]
-
   // Foreign Key Reference
   // Each User belongs to a company
   companyId  Int?
@@ -69,9 +67,6 @@ model TrackedObject {
   positions       Position[]
   journey         Journey[]
 
-  userId          Int?
-  user            User? @relation(fields: [userId], references: [id])
-
   // Foreign Key Reference
   // Each Bus belongs to a company
   companyId  Int?
@@ -83,6 +78,8 @@ model TrackedObject {
 model Location {
   id          Int       @id @default(autoincrement())
   name        String    @db.VarChar(100)
+  createdAt       DateTime @default(now())
+
 
   companyId   Int?
   company     Company?  @relation(fields: [companyId], references: [id])
@@ -95,6 +92,8 @@ model Journey {
   from        String    @db.VarChar(100)
   to          String    @db.VarChar(100)
   transit     Int
+  createdAt       DateTime @default(now())
+
 
   positions   Position[]
   // Foreign Key Reference
