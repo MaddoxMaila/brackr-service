@@ -7,7 +7,6 @@ import ErrorResponse from "../../libs/ErrorResponse"
 
 const JourneysController = {
     createJourney: async (req: Request, res: Response) => {
-
         try{
 
             const {trackedObjectId, from, to} = req.body

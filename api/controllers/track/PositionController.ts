@@ -4,7 +4,6 @@ import ErrorResponse from "../../libs/ErrorResponse"
 import { computePosition } from "./track"
 
 
-
 const PositionController = {
     savePositionCoordinates: async (req: Request, res: Response) => {
 
