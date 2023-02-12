@@ -1,0 +1,12 @@
+{
+  "name": "tunepik-native-app",
+  "displayName": "tunepik-native-app",
+  "expo": {
+    "name": "tunepik-native-app",
+    "slug": "tunepik-native-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
