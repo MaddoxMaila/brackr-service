@@ -6,12 +6,13 @@ import {
     Company,
     Position,
 } from "@prisma/client";
+import DatabaseSingleton from "../prisma/DatabaseSingleton";
 
 /**
  * @description
  * Create a prisma database client
  */
-const db = new PrismaClient()
+const db = DatabaseSingleton.getDb()
 
 export {
     db,
