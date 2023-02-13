@@ -5,7 +5,7 @@ import ApiResponse from '../../libs/ApiResponse';
 import {db} from '../../libs/Db'
 
 
-const AuthMid = async (req: Request, res: Response, next: NextFunction) => {
+const AuthMiddleware = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         
@@ -36,4 +36,4 @@ const AuthMid = async (req: Request, res: Response, next: NextFunction) => {
 
 }
 
-export default AuthMid
+export default AuthMiddleware

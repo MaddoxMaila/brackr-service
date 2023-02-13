@@ -1,30 +1,30 @@
 import { Router } from "express";
 import { CompanyController, TrackedObjectController } from "../controllers/auth/AdminController";
-import { AllAdminMid, SuperAdminMid } from "./middleware/PermissionsMid";
+import { AllAdminMiddleware, SuperAdminMiddlware } from "./middleware/PermissionsMiddleware";
 
 const router = Router()
 
 router.post(
     '/company/create',
-    [SuperAdminMid],
+    [SuperAdminMiddlware],
     CompanyController.addNewCompany
 )
 
 router.delete(
     '/company/delete',
-    [SuperAdminMid],
+    [SuperAdminMiddlware],
     CompanyController.deleteCompany
 )
 
 router.post(
     '/object/new',
-    [AllAdminMid],
+    [AllAdminMiddleware],
     TrackedObjectController.addNewTrackedObject
 )
 
 router.post(
     '/object/delete',
-    [AllAdminMid],
+    [AllAdminMiddleware],
     TrackedObjectController.deleteTrackedObject
 )
 

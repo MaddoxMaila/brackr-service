@@ -1,8 +1,11 @@
 import { Request, NextFunction, Response } from 'express'
 import ApiResponse from '../../libs/ApiResponse'
+import { LOGGER } from '../../libs/logger'
 import Helper from '../../utils/Helper'
 
-const ApiKeyMid = async (req: Request, res: Response, next: NextFunction) => {
+const ApiKeyMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+
+    LOGGER("BRACKR-REQ", req.originalUrl)
 
     try {
 
@@ -28,4 +31,4 @@ const ApiKeyMid = async (req: Request, res: Response, next: NextFunction) => {
 
 }
 
-export default ApiKeyMid
+export default ApiKeyMiddleware

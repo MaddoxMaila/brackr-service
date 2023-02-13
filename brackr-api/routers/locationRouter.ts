@@ -1,12 +1,12 @@
 import { Router } from "express";
 import LocationController from "../controllers/track/LocationController";
-import { AdminMid } from "./middleware/PermissionsMid";
+import { AdminMiddleware } from "./middleware/PermissionsMiddleware";
 
 const router = Router()
 
 router.post(
     '/new',
-    [AdminMid],
+    [AdminMiddleware],
     LocationController.addLocation
 )
 
