@@ -117,7 +117,6 @@ const UserController = {
                             transit: 1
                         }
                     })
-                    console.log(currentJourney)
                 break
 
             }
