@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import ApiResponse from "../../libs/ApiResponse"
 import ErrorResponse from "../../libs/ErrorResponse"
-import { computePosition } from "../../libs/dwx/track"
+import { computePosition } from "../../dwx/TrackPosition"
 
 
 const PositionController = {

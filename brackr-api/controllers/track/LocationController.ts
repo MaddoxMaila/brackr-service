@@ -28,8 +28,6 @@ const LocationController = {
 
             if(!location) throw new Error("Adding new location unsuccessful")
 
-            console.log(location)
-
             res.status(200).json(ApiResponse(false, "location added", {name: name, companyId: req.api?.companyId}))
 
         }catch(e: any){
