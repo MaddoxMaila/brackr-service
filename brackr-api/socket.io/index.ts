@@ -1,7 +1,7 @@
 import { SocketIOSingleton } from './socket.io';
 
 const namespaces: string[] = [
-    "location"
+    "LocationSocketIONamespace"
 ]
 
 namespaces.map(moduleName => {

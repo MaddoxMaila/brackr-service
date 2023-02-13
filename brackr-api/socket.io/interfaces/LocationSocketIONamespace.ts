@@ -1,7 +1,8 @@
+import { computePosition } from "../../dwx/TrackPosition";
 import { SocketIOSingleton } from "../socket.io";
 
 
-export default class LocationSockerIONamespace{
+export default class LocationSocketIONamespace{
     
     io: any;
 
@@ -31,7 +32,7 @@ export default class LocationSockerIONamespace{
          * Save the location co-ordinates to database.
          * TODO: implement a celery task to make database operations lighter
          */
-        console.log(`LOCATION SAVE: ${data}`)
+        computePosition(data)
     }
 
     readLocation(data: any){
