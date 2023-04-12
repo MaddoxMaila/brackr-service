@@ -1,4 +1,5 @@
 import { computePosition } from "../../dwx/TrackPosition";
+import { LOGGER } from "../../libs/logger";
 import { SocketIOSingleton } from "../socket.io";
 
 
@@ -22,8 +23,9 @@ export default class LocationSocketIONamespace{
          * Namespace name e.g bus-id => bus-1, bus-2, ..., bus-n
          */
         this.io.of(/^\/bus-\d+$/).on("connection", (socket: any) => {
-            console.log(`Namespace: ${socket.nsp}`)
+            LOGGER("SOCKET.IO", `namespace connected : ${socket.nsp.name}`)
             socket.on("location:save", this.saveLocation)
+            socket.on("notification:new", this.newNotification)
         })
     }
 
@@ -40,5 +42,7 @@ export default class LocationSocketIONamespace{
          * Read location sent from bus then emit it to all connected clients
          */
     }
+
+    newNotification(){}
 
 }

@@ -1,9 +1,14 @@
+import { rmqProducer } from '../rabbitmq/RabbitMQProducer';
 import taskModule, { TaskData } from './task-module';
 
-const processPositionQueue = taskModule('position-queue');
+export default () => {
+    const processPositionQueue = taskModule('position-queue');
 
-processPositionQueue.process(async (data: TaskData) => {
-    console.log("Processing position data")
-});
+    processPositionQueue.process(async (data: TaskData) => {
+        
+        rmqProducer.sendMessage(data)
 
-export default processPositionQueue
+    });
+
+    return processPositionQueue
+}

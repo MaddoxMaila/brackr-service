@@ -86,21 +86,25 @@ const TrackedObjectController = {
                 })
             ) throw new Error(`${name} already exists, generate another one`)
 
-            if(!await db.trackedObject.create({
+            const t = await db.trackedObject.create({
                 data: {
                     name: name,
                     companyId: req.api?.companyId
                 }
-            })) throw new Error("Failed to add tracked object")
+            })
+            if(!t) throw new Error("Failed to add tracked object")
 
-            res.status(200).json(ApiResponse(false, "Tracked Object added", {}))
+            res.status(200).json(ApiResponse(false, "Tracked Object added", t))
 
         }catch(e: any){
             ErrorResponse(res, e)
         }
 
     },
-    deleteTrackedObject: async () => {
+    getAllTrackedObjects: async (req: Request, res: Response) => {
+
+    },
+    deleteTrackedObject: async (req: Request, res: Response) => {
         
     },
 }

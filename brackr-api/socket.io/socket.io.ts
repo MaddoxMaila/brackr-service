@@ -1,4 +1,5 @@
 import {Server} from 'socket.io'
+import { LOGGER } from '../libs/logger'
 
 
 export class SocketIOSingleton{
@@ -33,7 +34,7 @@ export class SocketIOSingleton{
 
     static onConnection(){
         SocketIOSingleton.getIO().on("connection", (socket: any) => {
-            console.log("Socket IO connected!")
+            LOGGER("SOCKET.IO", "Connected")
         })
     }
 

@@ -1,5 +1,6 @@
 // task-module.ts
 import Queue from 'bull';
+import { LOGGER } from '../libs/logger';
 
 export interface TaskData {
   [key: string]: any;
@@ -8,6 +9,7 @@ export interface TaskData {
 export interface TaskModule {
   process: (callback: (data: TaskData) => Promise<any>) => void;
   add: (data: TaskData) => void;
+  queue: Queue.Queue;
 }
 
 export default function (queueName: string): TaskModule {
@@ -18,11 +20,24 @@ export default function (queueName: string): TaskModule {
     }
   });
 
+  queue.isReady().then(() => {
+    LOGGER("CELERY-BULL", "connected to redis.")
+  }).catch(() => {
+    LOGGER("CELERY-BULL", "Redis connection failed.")
+  })
+
+  queue.on("failed", () => {
+    LOGGER("CELERY-BULL", `queue ${queueName} failed to process`)
+  })
+
   return {
+    queue: queue,
     process: (callback) => {
       queue.process(async (job) => {
-        const result = await callback(job.data);
-        return result;
+         await callback(job.data);
+         queue.on("completed", () => {
+          LOGGER("CELERY-BULL", `queue ${queueName} processing finished!`)
+         })
       });
     },
     add: (data) => {

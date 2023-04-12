@@ -1,5 +1,4 @@
 import amqp from 'amqplib'
-import { Connection, Channel, ConsumeMessage } from 'amqplib';
 import { LOGGER } from '../../libs/logger';
 
 export class RabbitConsumer {
@@ -8,27 +7,33 @@ export class RabbitConsumer {
     connection: amqp.Connection | undefined
     channel: amqp.Channel | undefined
     
-    constructor(exchange: string, queue: string){
+    constructor(exchange: string = "", queue: string = ""){
 
         this.exchange = exchange || process.env.RABBIT_EXCHANGE || ""
         this.queue = queue || process.env.RABBIT_QUEUE || ""
-
-        this.connect()
-        this.createChannel()
 
     }
 
     async connect(){
         try {
             this.connection = await amqp.connect('amqp://localhost');
+            
+            ["error", "close"].forEach(listener => {
+                this.connection && this.connection.on(listener, e => {
+                    LOGGER("RABBITMQ", `connection ${listener} : ${e}`)
+                })
+            })
+
+            await this.createChannel(this.connection)
+
         } catch (e: any) {
             LOGGER("RABBITMQ", e)
         }
     }
 
-    async createChannel(){
+    async createChannel(connection: amqp.Connection){
         try {
-            this.channel = this.connection && await this.connection.createChannel()
+            this.channel = await connection.createChannel()
         } catch (e: any) {
             LOGGER("RABBITMQ", e)
         }
@@ -57,5 +62,11 @@ export class RabbitConsumer {
         }
     };
 
+}
+
+export const StartRabbitMQConsumer = async () => {
+    const rmqConsumer = new RabbitConsumer("brckr.pos", "brckr.pos.q")
+    await rmqConsumer.connect()
+    await rmqConsumer.receiveMessage()
 }
 

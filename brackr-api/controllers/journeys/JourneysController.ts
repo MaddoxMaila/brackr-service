@@ -12,29 +12,41 @@ const JourneysController = {
 
             const {trackedObjectId, from, to} = req.body
 
+            //TODO: verify locations from & to
+
             if(await db.journey.count({
                 where: {
                     transit: TRANSIT,
                     companyId: req.api?.companyId,
-                    trackedObjectId: trackedObjectId
+                    userId: req.api?.id
                 }
-            }) != 0) throw new Error("Cannot create new journey while you have ongoing journeys")
+            }) != 0) throw new Error("User already in an ongoing journey, new journey creation failed.")
 
-            if(!await db.journey.create({
+            if(await db.journey.count({
+                where: {
+                    transit: TRANSIT,
+                    companyId: req.api?.companyId,
+                    trackedObjectId: parseInt(trackedObjectId),
+                }
+            }) != 0) throw new Error("Vehicle already in an ongoing journey, new journey creation failed.")
+
+            const j = await db.journey.create({
                 data: {
                     from: from,
                     to: to,
                     transit: TRANSIT,
                     companyId: req.api?.companyId,
-                    trackedObjectId: trackedObjectId,
+                    trackedObjectId: parseInt(trackedObjectId),
                     userId: req.api?.id
                 }
-            })) throw new Error("New journey not created")
+            })
+
+            if(!j) throw new Error("New journey not created")
 
             res
-                .status(200)
+                .status(201)
                 .json(
-                    ApiResponse(false, "New journey created", {})
+                    ApiResponse(false, "New journey created", j)
                 )
 
         }catch(e: any){
@@ -45,12 +57,12 @@ const JourneysController = {
     stopJourney: async (req: Request, res: Response) => {
         try {
 
-            const { busId } = req.params
+            const { busId } = req.body
 
             const journey = await db.journey.findFirst({
                 where: {
                     companyId: req.api?.companyId,
-                    id: parseInt(busId),
+                    trackedObjectId: parseInt(busId),
                     userId: req.api?.id,
                     transit: TRANSIT
                 }

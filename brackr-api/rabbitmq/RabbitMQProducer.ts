@@ -2,7 +2,7 @@ import amqp from 'amqplib';
 import { LOGGER } from '../libs/logger';
 
 
-export default class RabbitMQProducer {
+class RabbitMQProducer {
 
     exchange: string
     queue: string
@@ -14,14 +14,20 @@ export default class RabbitMQProducer {
         this.exchange = exchange || process.env.RABBIT_EXCHANGE || ""
         this.queue = queue || process.env.RABBIT_QUEUE || ""
 
-        this.connect()
-        this.createChannel()
-
     }
 
     async connect(){
         try {
             this.connection = await amqp.connect('amqp://localhost');
+
+            ["error", "close"].forEach(listener => {
+                this.connection && this.connection.on(listener, e => {
+                    LOGGER("RABBITMQ", `connection ${listener} : ${e}`)
+                })
+            })
+
+            await this.createChannel()
+
         } catch (e: any) {
             LOGGER("RABBITMQ", e)
         }
@@ -59,3 +65,5 @@ export default class RabbitMQProducer {
 
     }
 }
+
+export const rmqProducer = new RabbitMQProducer("brckr.pos", "brckr.pos.q")

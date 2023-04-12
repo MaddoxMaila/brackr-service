@@ -1,4 +1,4 @@
-import processPositionQueue from "../tasks/position-dwx-task"
+import positionDwxTask from "../tasks/position-dwx-task"
 
 type Params = {
     lat: number,
@@ -8,7 +8,5 @@ type Params = {
     journeyId: any
 }
 export const computePosition = async (params: Params) => {
-
-    processPositionQueue.add(params)
-
+    positionDwxTask().add(params)
 }

@@ -1,3 +1,4 @@
+import { LOGGER } from './libs/logger';
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -12,6 +13,8 @@ import ApiKeyMiddleware from './routers/middleware/ApiKeyMiddleware';
 
 import socketIO from './socket.io'
 import DatabaseSingleton from './prisma/DatabaseSingleton';
+import { StartRabbitMQConsumer } from './rabbitmq/rpc/RabbitConsumer';
+import { rmqProducer } from './rabbitmq/RabbitMQProducer';
 
 
 //init
@@ -52,12 +55,16 @@ app.use(ErrorMiddleware);
 const port = process.env.PORT || 2828;
 app.listen(port, async () => {
     
-    console.log(`APPLICATION RUNNING ON PORT ${port}`)
+    LOGGER("SERVER", `server running on port ${port}`)
     
     await DatabaseSingleton.connect()
     
     // Initial socket IO connection
     socketIO.onConnection()
+    
+    rmqProducer.connect()
+
+    await StartRabbitMQConsumer()
 
 })
 
