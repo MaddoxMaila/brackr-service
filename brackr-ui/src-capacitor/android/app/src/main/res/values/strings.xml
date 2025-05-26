@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Brackr</string>
+    <string name="title_activity_main">Brackr</string>
+    <string name="package_name">com.brackr</string>
+    <string name="custom_url_scheme">com.brackr</string>
+</resources>
