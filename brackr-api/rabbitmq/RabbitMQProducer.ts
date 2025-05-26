@@ -18,7 +18,7 @@ class RabbitMQProducer {
 
     async connect(){
         try {
-            this.connection = await amqp.connect('amqp://localhost');
+            this.connection = await amqp.connect(process.env.RABBITMQ_URL!);
 
             ["error", "close"].forEach(listener => {
                 this.connection && this.connection.on(listener, e => {
