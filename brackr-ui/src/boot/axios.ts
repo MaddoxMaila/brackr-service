@@ -14,7 +14,36 @@ declare module 'vue' {
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: 'https://172.29.64.1:3000/' });
+const api = axios.create({ baseURL: 'http://172.29.64.1:2828/v1' });
+
+localStorage.setItem('apiKey', 'dc234eee13c48ce144c06a5ce7db1e85736d61727470726f40676d61696c2e636f6d')
+
+// Add request interceptor to include token and api key headers
+api.interceptors.request.use((config) => {
+  // Get token and apiKey from localStorage or another secure place
+  const apiKey = localStorage.getItem('apiKey');
+
+  if (apiKey) {
+    config.headers['x-access-key'] = apiKey;
+  }
+  
+  if (
+    config.url &&
+    config.url.toLowerCase().includes('/login')
+  ) {
+    return config;
+  }
+
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  
+  return config;
+}, (error: Error) => {
+  return Promise.reject(error);
+});
 
 export default defineBoot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api

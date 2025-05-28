@@ -10,7 +10,7 @@
         label="Sign Up"
         class="create-account-btn"
         unelevated
-        @click="router.push('/create-account')"
+        @click="async () => { await router.push('/create-account')}"
         v-ripple="true"
       />
     </div>
@@ -22,7 +22,10 @@
         <div class="welcome-title">Welcome Back!</div>
         <div class="welcome-subtitle">Sign in to track your bus</div>
       </div>
-      <q-form @submit="onSubmit" class="q-gutter-md" ref="formRef">
+      <div v-if="formError" class="form-error-alert">
+        {{ formError }}
+      </div>
+      <q-form @submit="onSubmit" class="q-gutter-md login-q-form" ref="formRef">
         <q-input
           v-model="email"
           label="Email"
@@ -68,12 +71,9 @@
             flat
             label="Forgot Password?"
             class="forgot-btn"
-            @click="() => $q.notify({ type: 'info', message: 'Password reset coming soon!' })"
+            @click="() => {}"
           />
         </div>
-        <q-banner v-if="formError" class="bg-negative text-white q-mt-md">
-          {{ formError }}
-        </q-banner>
       </q-form>
     </div>
   </q-page>
@@ -81,11 +81,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from 'src/stores/auth.store';
 
-const $q = useQuasar();
 const router = useRouter();
+const useAuth = useAuthStore();
+
 const email = ref('');
 const password = ref('');
 const loading = ref(false);
@@ -119,12 +120,15 @@ async function onSubmit() {
   loading.value = true;
   try {
     // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1200));
+    await useAuth.login({email :email.value, password: password.value});
     // Replace with actual API call, e.g.:
     // await $api.post('/login', { email: email.value, password: password.value });
 
     // Simulate login success
-    $q.notify({ type: 'positive', message: 'Login successful!' });
+    if (useAuth.authUser && useAuth.authUser.name) {
+      // $q.notify({ type: 'positive', message: `${useAuth.authUser.name} Login successful!` });
+      await router.push('/');
+    } 
     // Redirect to home
     // window.location.href = '/';
   } catch (err) {
@@ -141,6 +145,11 @@ async function onSubmit() {
 </script>
 
 <style scoped lang="scss">
+
+.login-q-form {
+  width: 85%;
+}
+
 .login-page {
   min-height: 100vh;
   display: flex;
@@ -277,6 +286,7 @@ async function onSubmit() {
   background: #f8fafc;
   box-shadow: 0 2px 8px 0 rgba(38, 166, 154, 0.04);
   transition: border-color 0.2s;
+  width: 100%;
 }
 .custom-input :deep(.q-field__control:focus-within) {
   border-color: #26a69a;
@@ -295,5 +305,18 @@ async function onSubmit() {
 .gradient-btn:hover, .gradient-btn:focus {
   box-shadow: 0 4px 16px 0 rgba(38, 166, 154, 0.18);
   filter: brightness(1.05);
+}
+
+.form-error-alert {
+  width: 100%;
+  margin-bottom: 1rem;
+  background: #ffeaea;
+  color: #c62828;
+  border: 1px solid #ffcdd2;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 8px 0 rgba(198, 40, 40, 0.04);
 }
 </style>

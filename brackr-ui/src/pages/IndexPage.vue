@@ -1,9 +1,8 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    Index
-  </q-page>
+  <main-map></main-map>
 </template>
 
 <script setup lang="ts">
+import MainMap from 'src/components/mapping/MainMap.vue';
 
 </script>
