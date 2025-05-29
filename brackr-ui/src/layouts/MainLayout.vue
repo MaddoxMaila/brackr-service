@@ -29,20 +29,7 @@
       />
     </div>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label header>
-          <div class="header-logo-title">
-            <q-icon name="directions_bus" size="28px" color="primary" class="header-bus-icon" />
-            <span class="header-title">Brackr</span>
-          </div>
-        </q-item-label>
-      </q-list>
-    </q-drawer>
+    <side-drawer v-model:leftDrawerOpen="leftDrawerOpen" />
 
     <q-page-container>
       <router-view />
@@ -51,19 +38,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+// import { useAuthStore } from 'src/stores/auth.store';
 // import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+
+import SideDrawer from 'src/components/SideDrawer.vue';
 
 // const router = useRouter()
+// const useAuth = useAuthStore()
+
 const leftDrawerOpen = ref(false);
 const search = ref('');
 
 function toggleLeftDrawer () {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 }
+
+
 </script>
 
 <style scoped>
+
 .floating-navbar {
   position: fixed;
   bottom: 20px;

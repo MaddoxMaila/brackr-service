@@ -34,7 +34,33 @@ export const useAuthStore = defineStore('auth.store', {
           throw error; // Re-throw the error for handling in the component
         });
     },
-  },
+    logout() {
+      // Simulate an API call
+        this.user = null;
+        this.token = '';
+        localStorage.removeItem('token'); // Remove token from localStorage
+        localStorage.removeItem('user'); // Remove user from localStorage
+        console.log('Logout successful');
+    },
+    loadUserFromLocalStorage() {
+      const token = localStorage.getItem('token');
+      const user = localStorage.getItem('user');
+
+      if (token) {
+        this.token = token;
+      }
+
+      if (user) {
+        try {
+          this.user = JSON.parse(user);
+        } catch (error) {
+          console.error('Failed to parse user from localStorage:', error);
+          this.user = null; // Reset user if parsing fails
+          this.logout(); // Optionally log out if user data is invalid
+        }
+      }
+    }
+  }
 });
 
 if (import.meta.hot) {

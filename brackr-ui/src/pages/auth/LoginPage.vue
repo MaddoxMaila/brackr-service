@@ -119,15 +119,13 @@ async function onSubmit() {
 
   loading.value = true;
   try {
-    // Simulate API call
+    
     await useAuth.login({email :email.value, password: password.value});
-    // Replace with actual API call, e.g.:
-    // await $api.post('/login', { email: email.value, password: password.value });
 
     // Simulate login success
     if (useAuth.authUser && useAuth.authUser.name) {
       // $q.notify({ type: 'positive', message: `${useAuth.authUser.name} Login successful!` });
-      await router.push('/');
+      await router.push(useAuth.authUser.type === 'driver' ? '/driver' : '/');
     } 
     // Redirect to home
     // window.location.href = '/';

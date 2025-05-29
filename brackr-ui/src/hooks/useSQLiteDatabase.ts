@@ -1,13 +1,10 @@
 import {
   CapacitorSQLite,
   SQLiteConnection,
-  SQLiteDBConnection,
+  type SQLiteDBConnection
 } from 'app/src-capacitor/node_modules/@capacitor-community/sqlite';
 import { Capacitor } from 'app/src-capacitor/node_modules/@capacitor/core';
-import { App } from 'app/src-capacitor/node_modules/@capacitor/app';
 import { Dialog } from 'quasar';
-
-export type ScanStatus = 'approved' | 'rejected';
 
 class DatabaseService {
   private sqlite: SQLiteConnection | null = null;
