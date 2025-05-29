@@ -15,6 +15,7 @@ import socketIO from './socket.io'
 import DatabaseSingleton from './prisma/DatabaseSingleton';
 import { StartRabbitMQConsumer } from './rabbitmq/rpc/RabbitConsumer';
 import { rmqProducer } from './rabbitmq/RabbitMQProducer';
+import { createSuperCompany, createSuperUser } from './utils/createSupers';
 
 
 //init
@@ -29,8 +30,10 @@ app.use(helmet());
 //enable cros 
 app.use(cors({ origin: true, credentials: true }))
 
+const VER = process.env.API_VERSION || '1';
+LOGGER('APP', `API Version: v${VER}`)
 //routers
-app.get('/', (req, res) => res.send('Running.. 🚀'))
+app.get(`v${VER}/`, (req, res) => res.send('Running.. 🚀'))
 
 // Application middlewares
 const MIDDLEWARES = [
@@ -39,11 +42,11 @@ const MIDDLEWARES = [
     ApiKeyMiddleware,
 ]
 
-app.use('/auth', ApiKeyMiddleware, Routers.authRouter)
-app.use('/admin', MIDDLEWARES, Routers.adminRouter)
-app.use('/journey', MIDDLEWARES, Routers.journeyRouter)
-app.use('/position', MIDDLEWARES, Routers.positionRouter,)
-app.use('/location', MIDDLEWARES, Routers.locationRouter)
+app.use(`/v${VER}/auth`, ApiKeyMiddleware, Routers.authRouter)
+app.use(`/v${VER}/admin`, MIDDLEWARES, Routers.adminRouter)
+app.use(`/v${VER}/journey`, MIDDLEWARES, Routers.journeyRouter)
+app.use(`/v${VER}/position`, MIDDLEWARES, Routers.positionRouter,)
+app.use(`/v${VER}/location`, MIDDLEWARES, Routers.locationRouter)
 
 // app.use('/auth', Routers.authRouter)
 // app.use('/private', AuthMid, require('./routers/authRouter'))
@@ -55,7 +58,6 @@ app.use(ErrorMiddleware);
 const port = process.env.PORT || 2828;
 app.listen(port, async () => {
     
-    LOGGER("SERVER", `server running on port ${port}`)
     
     await DatabaseSingleton.connect()
     
@@ -63,8 +65,16 @@ app.listen(port, async () => {
     socketIO.onConnection()
     
     rmqProducer.connect()
-
+    
     await StartRabbitMQConsumer()
 
+    try {
+        LOGGER("[APP]", await createSuperCompany(process.env.SUPER_COMPANY_NAME || "Brackr", process.env.SUPER_COMPANY_EMAIL || ""))
+        LOGGER("[APP]", await createSuperUser(process.env.SUPER_USER_NAME || "Admin", process.env.SUPER_USER_EMAIL || "maddox@gmail.com", process.env.SUPER_USER_PASSWORD || "qwerty123"))
+    } catch (e: any) {
+        LOGGER("[APP]", `Creating super user & company: ${e.message}`)
+    }
+    
+    LOGGER("SERVER", `server running on port ${port}`)
 })
 

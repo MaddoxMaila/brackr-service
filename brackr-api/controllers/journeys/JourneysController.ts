@@ -26,7 +26,7 @@ const JourneysController = {
                 where: {
                     transit: TRANSIT,
                     companyId: req.api?.companyId,
-                    trackedObjectId: parseInt(trackedObjectId),
+                    trackedObjectId: trackedObjectId,
                 }
             }) != 0) throw new Error("Vehicle already in an ongoing journey, new journey creation failed.")
 
@@ -36,7 +36,7 @@ const JourneysController = {
                     to: to,
                     transit: TRANSIT,
                     companyId: req.api?.companyId,
-                    trackedObjectId: parseInt(trackedObjectId),
+                    trackedObjectId: trackedObjectId,
                     userId: req.api?.id
                 }
             })
@@ -62,7 +62,7 @@ const JourneysController = {
             const journey = await db.journey.findFirst({
                 where: {
                     companyId: req.api?.companyId,
-                    trackedObjectId: parseInt(busId),
+                    trackedObjectId: busId,
                     userId: req.api?.id,
                     transit: TRANSIT
                 }

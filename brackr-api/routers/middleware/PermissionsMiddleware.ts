@@ -43,7 +43,13 @@ export const SuperAdminMiddlware = (req: Request, res: Response, next: NextFunct
 export const AdminMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
     try{
-        
+        // Check if the user is an admin or superadmin
+        // Note: The condition should use logical AND (&&) instead of OR (||)  
+
+        // to ensure that the user is either an admin or a superadmin.
+
+        // if(req.user?.type != UserTypes.admin && req.user?.type != UserTypes.superadmin) throw new Error("Permission denied, not an admin or a super admin.")
+        // Corrected condition
         if(req.user?.type != UserTypes.admin) throw new Error("Permission denied, not an admin.")
 
         next()

@@ -5,6 +5,7 @@ import {
     Journey, 
     Company,
     Position,
+    Location
 } from "@prisma/client";
 import DatabaseSingleton from "../prisma/DatabaseSingleton";
 
@@ -21,4 +22,5 @@ export {
     Journey,
     Company,
     Position,
+    Location
 }

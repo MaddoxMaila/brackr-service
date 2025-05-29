@@ -22,10 +22,10 @@ const UserController = {
         try {
 
             const ACCOUNT_TYPE = ['user', 'admin', 'superadmin', 'driver']
- 
+
+            console.log("req.body: ", req.body);
             const { email, name, password, type } = req.body
             const companyId = req.api?.companyId
-
             if(!ACCOUNT_TYPE.includes(type)) throw new Error("Creating new user failed, context?")
             //validatioin handle by sequlize
             if (password.length < 6) {
@@ -76,7 +76,6 @@ const UserController = {
     login: async (req: Request, res: Response) => {
         try {
             const { email, password } = req.body
-            const companyId = req.api?.companyId
 
             //validatioin
             if (!email || !password) {

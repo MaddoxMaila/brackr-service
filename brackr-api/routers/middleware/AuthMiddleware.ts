@@ -8,19 +8,24 @@ import {db} from '../../libs/Db'
 const AuthMiddleware = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
-        
-        const headers = req.headers
-        if(!headers['x-jwt']) throw new Error("Unauthorized Access")
+        let token: string | undefined;
+        // Prefer standard Authorization header: "Bearer <token>"
+        const authHeader = req.headers['authorization'] || req.headers['Authorization'];
+        if (authHeader && typeof authHeader === 'string' && authHeader.startsWith('Bearer ')) {
+            token = authHeader.slice(7).trim();
+        } else if (req.headers['x-jwt']) {
+            // Fallback to x-jwt header for backward compatibility
+            token = req.headers['x-jwt'].toString();
+        }
 
-        const token = headers['x-jwt'].toString()
-        if (!token) throw new Error("Unauthorized Access")
-        
-        //token validation 
+        if (!token) throw new Error("Unauthorized Access");
+
+        // Token validation 
         const id = Helper.verifyJWTtoken(token)
 
         const user  = await db.user.findFirst({
             where: {
-                id: parseInt(id)
+                id: id
             }
         })
 

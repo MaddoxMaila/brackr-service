@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import ApiResponse from '../../libs/ApiResponse';
+import { LOGGER } from '../../libs/logger';
 
 
 //for all other error
@@ -12,6 +13,7 @@ const ErrorMid = (e: Error, req: Request, res: Response, next: NextFunction) => 
 }
 //for 404 error
 const Error404Mid = (req: Request, res: Response) => {
+    LOGGER("404 Error Middleware: ", req.url);
     res.status(404).json(ApiResponse<Error>(true, "Not Found", {
         name: "404",
         message: "No Response Found!"

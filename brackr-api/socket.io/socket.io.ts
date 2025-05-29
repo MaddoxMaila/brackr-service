@@ -34,7 +34,7 @@ export class SocketIOSingleton{
 
     static onConnection(){
         SocketIOSingleton.getIO().on("connection", (socket: any) => {
-            LOGGER("SOCKET.IO", "Connected")
+            LOGGER("SOCKET.IO", "Connected...")
         })
     }
 

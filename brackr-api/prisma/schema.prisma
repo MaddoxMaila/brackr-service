@@ -9,7 +9,7 @@ generator client {
 
 // all models
 model Company {
-  id         Int        @id @default(autoincrement())
+  id         String     @id @default(uuid())
   name       String     @db.VarChar(100)
   email      String     @unique @db.VarChar(155)
   createdAt  DateTime   @default(now())
@@ -27,42 +27,42 @@ model Company {
 }
 
 model Apikey {
-  id          Int         @id @default(autoincrement())
-  apiKey      String      @unique @db.VarChar()
+  id          String      @id @default(uuid())
+  apiKey      String      @unique @default(uuid())
   createdAt   DateTime    @default(now())
   expire      DateTime
 
   // Foreign Key Reference
   // Each User belongs to a company
-  companyId  Int?
-  company    Company? @relation(fields: [companyId], references: [id])
+  companyId   String?
+  company     Company? @relation(fields: [companyId], references: [id])
 
   @@map("apikey")
 }
 
 
 model User {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(uuid())
   name       String   @db.VarChar(100)
   type       String   @db.VarChar(10)
   email      String   @unique @db.VarChar(155)
   password   String
   createdAt  DateTime @default(now())
 
-  journeys  Journey[]
+  journeys   Journey[]
 
   // Foreign Key Reference
   // Each User belongs to a company
-  companyId  Int?
+  companyId  String?
   company    Company? @relation(fields: [companyId], references: [id])
 
   @@map("user")
 }
 
 model TrackedObject {
-  id              Int      @id @default(autoincrement())
-  name            String   @unique @db.VarChar(20)
-  createdAt       DateTime @default(now())
+  id              String    @id @default(uuid())
+  name            String    @unique @db.VarChar(20)
+  createdAt       DateTime  @default(now())
 
   // Foreign Key Reference
   // Each Bus has many positions (as it moves)
@@ -72,64 +72,67 @@ model TrackedObject {
   // Foreign Key Reference
   // Each Bus belongs to a company
 
-  companyId  Int?
-  company    Company? @relation(fields: [companyId], references: [id])
+  companyId       String?
+  company         Company? @relation(fields: [companyId], references: [id])
 
   @@map("trackedObject")
 }
 
 model Location {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   name        String    @db.VarChar(100)
-  createdAt       DateTime @default(now())
+  createdAt   DateTime  @default(now())
+
+  latitude    String    @db.VarChar(100) @default("0.0")
+  longitude   String    @db.VarChar(100) @default("0.0")
 
 
-  companyId   Int?
+  companyId   String?
   company     Company?  @relation(fields: [companyId], references: [id])
 
   @@map("location")
 }
 
 model Journey {
-  id          Int       @id @default(autoincrement())
-  from        String    @db.VarChar(100)
-  to          String    @db.VarChar(100)
-  transit     Int
-  createdAt       DateTime @default(now())
+  id              String    @id @default(uuid())
+  from            String    @db.VarChar(100)
+  to              String    @db.VarChar(100)
+  transit         Int
+  createdAt       DateTime  @default(now())
 
 
-  positions   Position[]
+  positions       Position[]
   // Foreign Key Reference
   // Each Bus belongs to a company
-  userId      Int?
-  user        User? @relation(fields: [userId], references: [id])
+  userId          String?
+  user            User? @relation(fields: [userId], references: [id])
 
 
-  companyId  Int?
-  company    Company? @relation(fields: [companyId], references: [id])
+  companyId       String?
+  company         Company? @relation(fields: [companyId], references: [id])
 
-  trackedObjectId   Int?
-  trackedObject           TrackedObject? @relation(fields: [trackedObjectId], references: [id])
+  trackedObjectId String?
+  trackedObject   TrackedObject? @relation(fields: [trackedObjectId], references: [id])
 
   @@map("journey")  
 }
 
 model Position {
-  id          Int       @id @default(autoincrement())
-  latitude    Decimal
-  longitude   Decimal
-  createdAt   DateTime @default(now())
+  id              String    @id @default(uuid())
+  latitude        Decimal
+  longitude       Decimal
+  createdAt       DateTime  @default(now())
 
   // Foreign Key Reference
   // Each Position belongs to one vehicle
-  trackedObjectId   Int?
-  trackedObject     TrackedObject? @relation(fields: [trackedObjectId], references: [id])
+  trackedObjectId String?
+  trackedObject   TrackedObject? @relation(fields: [trackedObjectId], references: [id])
 
-  companyId         Int?
-  company           Company? @relation(fields: [companyId], references: [id])
+  companyId       String?
+  company         Company? @relation(fields: [companyId], references: [id])
 
-  journeyId         Int?
-  journey           Journey? @relation(fields: [journeyId], references: [id])
+  journeyId       String?
+  journey         Journey? @relation(fields: [journeyId], references: [id])
 
   @@map("position")  
 }

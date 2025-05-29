@@ -8,7 +8,7 @@ const LocationController = {
 
         try{
 
-            const {name} = req.body
+            const {name, latitude, longitude} = req.body
 
             if(
                 await db.location.findFirst({
@@ -22,7 +22,9 @@ const LocationController = {
             const location = await db.location.create({
                 data: {
                     name: name,
-                    companyId: req.api?.companyId
+                    companyId: req.api?.companyId,
+                    latitude: latitude,
+                    longitude: longitude
                 }
             })
 

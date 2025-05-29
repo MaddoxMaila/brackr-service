@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { CompanyController, TrackedObjectController } from "../controllers/auth/AdminController";
-import { AdminMiddleware, AllAdminMiddleware, SuperAdminMiddlware } from "./middleware/PermissionsMiddleware";
+import { AdminMiddleware, SuperAdminMiddlware } from "./middleware/PermissionsMiddleware";
 
 const router = Router()
 

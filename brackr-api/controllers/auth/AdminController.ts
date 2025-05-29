@@ -29,7 +29,7 @@ import { CompanyCreated } from "../../libs/types"
                         apiKey: hashedAPIKey,
                     }
                 })
-                if (api) throw new Error("Api key already exists for this email")
+                if (!api) throw new Error("Api key already exists for this email")
 
                 const company = await db.company.create({
                     data: {
@@ -38,7 +38,7 @@ import { CompanyCreated } from "../../libs/types"
                     }
                 })
 
-                if(!company.id) throw new Error("Cannot save company")
+                if(!company) throw new Error("Cannot save company")
 
                 // create apikey for company
                 const apikey = await db.apikey.create({
@@ -48,7 +48,7 @@ import { CompanyCreated } from "../../libs/types"
                         companyId: company.id
                     }
                 })
-                if(api) throw new Error("Apikey not created")
+                if(!api) throw new Error("Apikey not created")
 
                 res.status(200).json(
                     ApiResponse<CompanyCreated>(false, "company created successfully", {
@@ -102,7 +102,17 @@ const TrackedObjectController = {
 
     },
     getAllTrackedObjects: async (req: Request, res: Response) => {
+        try {
+            const objects = await db.trackedObject.findMany({
+                where: {
+                    companyId: req.api?.companyId
+                }
+            })
 
+            res.status(200).json(ApiResponse(false, "Tracked Objects fetched", objects))
+        } catch (e: any) {
+            ErrorResponse(res, e)
+        }
     },
     deleteTrackedObject: async (req: Request, res: Response) => {
         

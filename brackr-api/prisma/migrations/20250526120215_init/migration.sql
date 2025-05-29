@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "apikey" ALTER COLUMN "apiKey" SET DATA TYPE TEXT;
