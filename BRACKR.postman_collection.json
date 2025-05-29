@@ -19,7 +19,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\":\"Tshepang\",\r\n    \"email\":\"maila@gmail.com\",\r\n    \"password\":\"maddox\",\r\n    \"type\":\"user\"\r\n\r\n}",
+					"raw": "{\r\n    \"name\":\"Themba\",\r\n    \"email\":\"makamu@gmail.com\",\r\n    \"password\":\"kamzen\",\r\n    \"type\":\"user\"\r\n\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -68,7 +68,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\":\"maila@gmail.com\",\r\n    \"password\":\"maddox\"\r\n}",
+					"raw": "{\r\n    \"email\":\"maddox@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -83,6 +83,98 @@
 					"path": [
 						"auth",
 						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ALL LOCATIONS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/location/all",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"location",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ADD LOCATION",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Pretoria\",\r\n    \"latitude\": \"-25.7591361\",\r\n    \"longitude\": \"28.1876853\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/location/new",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"location",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ADD BUS",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"GAU 0199\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/admin/object/new",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"admin",
+						"object",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ALL BUSES",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/location/object/all",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"location",
+						"object",
+						"all"
 					]
 				}
 			},
